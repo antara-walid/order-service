@@ -1,10 +1,10 @@
 package com.ecom.orderservice.service;
 
+import com.ecom.orderservice.dto.OrderLineItemsDTO;
 import com.ecom.orderservice.dto.OrderRequest;
 import com.ecom.orderservice.entity.Order;
 import com.ecom.orderservice.entity.OrderLineItems;
 import com.ecom.orderservice.repository.OrderRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +12,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
+    private final OrderRepository orderRepository;
 
-    private OrderRepository orderRepository;
+    public OrderServiceImpl(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
     @Override
     public void placeOrder(OrderRequest orderRequest) {
@@ -24,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderLineItems> orderLineItems = orderRequest.getOrderLineItemsDTOList()
                 .stream()
-                .map(orderLineItemsDTO -> orderLineItemsDTO.mapToOrderLineItems())
+                .map(OrderLineItemsDTO::mapToOrderLineItems)
                 .collect(Collectors.toList());
 
         order.setOrderLineItemsList(orderLineItems);

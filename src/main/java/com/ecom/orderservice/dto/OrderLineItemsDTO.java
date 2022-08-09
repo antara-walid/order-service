@@ -22,7 +22,6 @@ public class OrderLineItemsDTO {
     public OrderLineItems mapToOrderLineItems()
     {
         return OrderLineItems.builder()
-                .id(this.id)
                 .skuCode(this.skuCode)
                 .price(this.price)
                 .quantity(this.quantity)
